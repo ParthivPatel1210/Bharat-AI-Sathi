@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bharat AI Sathi | Government Assistance Portal</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #f4f6f9;
+}
+
+.top-strip {
+    height: 6px;
+    background: linear-gradient(to right, #FF9933 33%, white 33%, white 66%, #138808 66%);
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #0b3d91;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.logo-text strong {
+    font-size: 18px;
+    color: #0b3d91;
+}
+
+.logo-text span {
+    font-size: 12px;
+    color: #555;
+}
+
+#language {
+    padding: 6px 10px;
+    font-size: 14px;
+}
+
+.search-section {
+    text-align: center;
+    padding: 70px 20px 40px 20px;
+    background: white;
+}
+
+.search-section h1 {
+    color: #0b3d91;
+    font-size: 28px;
+}
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    max-width: 700px;
+    margin: auto;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+.search-box button {
+    padding: 14px 18px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.mic-btn {
+    background-color: #FF9933;
+    color: white;
+}
+
+.ask-btn {
+    background-color: #0b3d91;
+    color: white;
+    border-radius: 0 4px 4px 0;
+}
+
+.category-section {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.category-section h2 {
+    text-align: center;
+    color: #0b3d91;
+    margin-bottom: 30px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+    gap: 25px;
+}
+
+.category-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.category-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0b3d91;
+}
+
+.category-link {
+    text-decoration: none;
+}
+
+.response-container {
+    max-width: 900px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    min-height: 150px;
+    white-space: pre-line;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    background: #0b3d91;
+    color: white;
+    margin-top: 60px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-strip"></div>
+
+<div class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}">
+        <div class="logo-text">
+            <strong>Bharat AI Sathi</strong>
+            <span>Government Assistance Portal</span>
+        </div>
+    </div>
+
+    <select id="language">
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+    </select>
+</div>
+
+<!-- Search Section -->
+<div class="search-section">
+    <h1>Government Schemes & Services Portal</h1>
+    <div class="search-box">
+        <input type="text" id="userInput" placeholder="Ask about PM Kisan, Ayushman Bharat, Mudra Loan...">
+        <button class="mic-btn" onclick="startVoice()">🎤</button>
+        <button class="ask-btn" onclick="askQuestion()">Search</button>
+    </div>
+</div>
+
+<!-- Category Section -->
+<div class="category-section">
+    <h2>Schemes By Category</h2>
+
+    <div class="category-grid">
+        {% for key, category in schemes.items() %}
+            <div class="category-card">
+                <a href="/category/{{ key }}" class="category-link">
+                    <div class="icon">🏛️</div>
+                    <div class="category-title">
+                        {{ category.name }}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- Response Section -->
+<div class="response-container" id="responseArea">
+    AI scheme guidance will appear here.
+</div>
+
+<div class="footer">
+    © 2026 Bharat AI Sathi | Government Information Portal
+</div>
+
+<script>
+function askQuestion() {
+    const prompt = document.getElementById("userInput").value;
+    const language = document.getElementById("language").value;
+
+    fetch("/ask_text", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: prompt, language: language })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("responseArea").innerText = data.response;
+        window.scrollTo({ top: document.getElementById("responseArea").offsetTop - 80, behavior: "smooth" });
+    });
+}
+
+function startVoice() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = document.getElementById("language").value === "Hindi" ? "hi-IN" : "en-IN";
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        document.getElementById("userInput").value = event.results[0][0].transcript;
+    };
+}
+</script>
+
+</body>
+</html>

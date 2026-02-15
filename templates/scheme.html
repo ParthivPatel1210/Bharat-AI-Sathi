@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card shadow p-4">
+
+        <h3 class="text-primary">{{ scheme.title }}</h3>
+
+        <p class="mt-3">
+            <strong>Objective:</strong> {{ scheme.objective }}
+        </p>
+
+        <h5 class="mt-3">Benefits:</h5>
+        <ul>
+            {% for benefit in scheme.benefits %}
+                <li>{{ benefit }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Eligibility:</strong> {{ scheme.eligibility }}</p>
+
+        <p><strong>How to Apply:</strong> {{ scheme.apply }}</p>
+
+        <p><strong>Required Documents:</strong> {{ scheme.documents }}</p>
+
+        <div class="alert alert-info mt-4">
+            <strong>Helpline Number:</strong> {{ scheme.helpline }}
+        </div>
+
+        <a href="/" class="btn btn-secondary mt-3">Back to Home</a>
+
+    </div>
+</div>
+
+{% endblock %}

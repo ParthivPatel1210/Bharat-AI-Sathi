@@ -1,0 +1,55 @@
+{
+    "agriculture": {
+      "name": "Agriculture, Rural & Environment",
+      "schemes": {
+        "pm_kisan": {
+          "title": "PM Kisan Samman Nidhi",
+          "objective": "Provides ₹6000 per year to farmers.",
+          "eligibility": "Small and marginal farmers.",
+          "benefits": [
+            "₹6000 per year",
+            "Direct bank transfer"
+          ],
+          "apply": "https://pmkisan.gov.in",
+          "documents": "Aadhar, Bank passbook, Land record",
+          "helpline": "155261"
+        },
+        "pmfby": {
+          "title": "PM Fasal Bima Yojana",
+          "objective": "Crop insurance scheme for farmers.",
+          "eligibility": "All farmers.",
+          "benefits": [
+            "Low premium",
+            "Crop loss compensation"
+          ],
+          "apply": "https://pmfby.gov.in",
+          "documents": "Land record, Bank details",
+          "helpline": "14447"
+        }
+      }
+    },
+  
+    "health": {
+      "name": "Health & Wellness",
+      "schemes": {
+        "ayushman": {
+          "title": "Ayushman Bharat Yojana",
+          "objective": "₹5 lakh health insurance per family.",
+          "eligibility": "Eligible SECC families.",
+          "benefits": [
+            "Cashless treatment",
+            "Pan India coverage"
+          ],
+          "apply": "https://mera.pmjay.gov.in",
+          "documents": "Aadhar, Ration card",
+          "helpline": "14555"
+        }
+      }
+    },
+  
+    "education": {
+      "name": "Education & Learning",
+      "schemes": {}
+    }
+  }
+  
